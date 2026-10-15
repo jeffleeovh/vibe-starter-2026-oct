@@ -1,0 +1,7 @@
+{
+  "name": "The New York Times",
+  "description": "Interactive front page and digital broadsheet news experience with full articles, games, polls, and lifestyle guides.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

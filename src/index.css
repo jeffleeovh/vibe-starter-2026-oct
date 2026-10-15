@@ -1,0 +1,114 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --nyt-black: #121212;
+    --nyt-gray: #727272;
+    --nyt-light-gray: #ebebeb;
+    --nyt-rule: #e2e2e2;
+    --nyt-dark-rule: #121212;
+    --nyt-blue: #567b95;
+    --nyt-sub-blue: #326891;
+    --nyt-live-red: #c00;
+  }
+
+  body {
+    color: #121212;
+    background-color: #ffffff;
+    -webkit-font-smoothing: antialiased;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+}
+
+/* Custom newspaper borders and typography */
+.column-border-r {
+  border-right: 1px solid #e2e2e2;
+}
+
+.row-border-b {
+  border-bottom: 1px solid #e2e2e2;
+}
+
+.double-bottom-border {
+  border-bottom: 3px double #121212;
+}
+
+.double-top-border {
+  border-top: 3px double #121212;
+}
+
+.masthead-title {
+  font-family: 'Cinzel Decorative', 'Playfair Display', Georgia, serif;
+  letter-spacing: -0.02em;
+}
+
+.font-editorial-serif {
+  font-family: 'Newsreader', 'Georgia', serif;
+}
+
+.font-editorial-display {
+  font-family: 'Playfair Display', 'Georgia', serif;
+}
+
+/* Drop-cap for longform editorial reading */
+.article-drop-cap::first-letter {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 3.75rem;
+  line-height: 0.85;
+  float: left;
+  margin-top: 0.15rem;
+  margin-right: 0.65rem;
+  font-weight: 700;
+  color: #121212;
+}
+
+/* Sepia and Night reading modes */
+body.mode-sepia {
+  background-color: #f7f4ed !important;
+  color: #2b2b2b !important;
+}
+body.mode-sepia .bg-white {
+  background-color: #fbf9f4 !important;
+}
+body.mode-sepia .bg-gray-50 {
+  background-color: #efebe1 !important;
+}
+body.mode-sepia .border-nyt-rule,
+body.mode-sepia .border-gray-200,
+body.mode-sepia .column-border-r,
+body.mode-sepia .row-border-b {
+  border-color: #ded6c5 !important;
+}
+
+body.mode-night {
+  background-color: #121212 !important;
+  color: #dcdcdc !important;
+}
+body.mode-night .bg-white {
+  background-color: #1a1a1a !important;
+  color: #dcdcdc !important;
+}
+body.mode-night .bg-gray-50 {
+  background-color: #222222 !important;
+}
+body.mode-night .text-nyt-black,
+body.mode-night .text-black,
+body.mode-night .text-gray-900,
+body.mode-night .text-gray-800 {
+  color: #f0f0f0 !important;
+}
+body.mode-night .text-gray-700,
+body.mode-night .text-gray-600 {
+  color: #a8a8a8 !important;
+}
+body.mode-night .border-nyt-rule,
+body.mode-night .border-gray-200,
+body.mode-night .border-gray-100,
+body.mode-night .column-border-r,
+body.mode-night .row-border-b {
+  border-color: #2d2d2d !important;
+}
+body.mode-night .border-nyt-darkRule,
+body.mode-night .border-black {
+  border-color: #4a4a4a !important;
+}
