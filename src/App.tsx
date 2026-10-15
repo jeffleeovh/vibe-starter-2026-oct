@@ -6,6 +6,8 @@ import { FrontPage } from './components/FrontPage';
 import { ArticleReader } from './components/ArticleReader';
 import { TodaysPaperView } from './components/TodaysPaperView';
 import { Footer } from './components/Footer';
+import { StickyHeader } from './components/StickyHeader';
+import { AudioPlayerBar } from './components/AudioPlayerBar';
 import { SearchModal } from './components/SearchModal';
 import { SubscribeModal } from './components/SubscribeModal';
 import { UserAccountModal } from './components/UserAccountModal';
@@ -45,6 +47,10 @@ export default function App() {
   const [isWirecutterOpen, setIsWirecutterOpen] = useState(false);
   const [isAthleticOpen, setIsAthleticOpen] = useState(false);
   const [isPollsModalOpen, setIsPollsModalOpen] = useState(false);
+
+  // Persistent Audio playback state
+  const [playingAudioArticle, setPlayingAudioArticle] = useState<Article | null>(null);
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
 
   // User reader preferences
   const [readingMode, setReadingMode] = useState<ReadingMode>('normal');
@@ -95,6 +101,21 @@ export default function App() {
     );
   };
 
+  const handleStartAudio = (article: Article) => {
+    setPlayingAudioArticle(article);
+    setIsPlayingAudio(true);
+  };
+
+  const handleToggleAudio = () => {
+    if (!playingAudioArticle) {
+      const defaultStory = ARTICLES[0];
+      setPlayingAudioArticle(defaultStory);
+      setIsPlayingAudio(true);
+    } else {
+      setIsPlayingAudio(!isPlayingAudio);
+    }
+  };
+
   const handleAddComment = (newComment: CommentItem) => {
     setComments((prev) => [newComment, ...prev]);
   };
@@ -108,7 +129,7 @@ export default function App() {
   const getArticleById = (id: string) => ARTICLES.find((a) => a.id === id);
   const savedArticles = ARTICLES.filter((a) => savedArticleIds.includes(a.id));
 
-  // Filtered view when a specific section is selected (other than standard frontpage / u.s.)
+  // Filtered view when a specific section is selected
   const isSectionFiltered =
     activeSection !== 'u.s.' &&
     activeSection !== 'games' &&
@@ -123,7 +144,24 @@ export default function App() {
     : [];
 
   return (
-    <div className="min-h-screen flex flex-col justify-between selection:bg-gray-200">
+    <div className="min-h-screen flex flex-col justify-between selection:bg-[#e0e9f1] pb-12">
+      {/* Scroll-activated pro sticky header */}
+      <StickyHeader
+        onGoHome={() => {
+          setActiveScreen('frontpage');
+          setActiveSection('u.s.');
+        }}
+        onOpenSearch={() => setIsSearchOpen(true)}
+        onOpenAccount={() => setIsAccountOpen(true)}
+        onOpenSubscribe={() => setIsSubscribeOpen(true)}
+        isSubscribed={isSubscribed}
+        savedCount={savedArticles.length}
+        activeSection={activeSection}
+        currentArticle={activeScreen === 'article' ? selectedArticle : null}
+        isPlayingAudio={isPlayingAudio}
+        onToggleAudio={handleToggleAudio}
+      />
+
       {/* Top Utility Header */}
       <Header
         onOpenSearch={() => setIsSearchOpen(true)}
@@ -228,7 +266,7 @@ export default function App() {
                           {art.kicker}
                         </div>
                       )}
-                      <h3 className="font-serif font-bold text-lg leading-snug group-hover:text-gray-700 mb-2">
+                      <h3 className="font-serif font-bold text-lg leading-snug headline-hover mb-2">
                         {art.title}
                       </h3>
                       <p className="font-serif text-xs text-gray-600 leading-relaxed line-clamp-3">
@@ -255,6 +293,9 @@ export default function App() {
               onOpenWirecutter={() => setIsWirecutterOpen(true)}
               onOpenAthletic={() => setIsAthleticOpen(true)}
               onOpenPollsModal={() => setIsPollsModalOpen(true)}
+              onPlayAudioArticle={handleStartAudio}
+              onToggleBookmark={handleToggleBookmark}
+              isBookmarked={(id) => savedArticleIds.includes(id)}
               getArticleById={getArticleById}
             />
           )}
@@ -269,6 +310,19 @@ export default function App() {
         }}
         onOpenSubscribe={() => setIsSubscribeOpen(true)}
       />
+
+      {/* Floating Audio Player Bar */}
+      {playingAudioArticle && (
+        <AudioPlayerBar
+          article={playingAudioArticle}
+          isPlaying={isPlayingAudio}
+          onTogglePlay={() => setIsPlayingAudio(!isPlayingAudio)}
+          onClose={() => {
+            setIsPlayingAudio(false);
+            setPlayingAudioArticle(null);
+          }}
+        />
+      )}
 
       {/* Global Interactive Modals */}
       <SearchModal

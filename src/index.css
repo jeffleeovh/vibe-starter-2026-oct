@@ -18,6 +18,12 @@
     -webkit-font-smoothing: antialiased;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
+
+  /* Smooth newspaper selection */
+  ::selection {
+    background-color: #e0e9f1;
+    color: #121212;
+  }
 }
 
 /* Custom newspaper borders and typography */
@@ -37,9 +43,11 @@
   border-top: 3px double #121212;
 }
 
+/* Authentic NYT Gothic Masthead Title */
 .masthead-title {
-  font-family: 'Cinzel Decorative', 'Playfair Display', Georgia, serif;
-  letter-spacing: -0.02em;
+  font-family: 'UnifrakturCook', 'Cinzel Decorative', 'Playfair Display', Georgia, serif;
+  letter-spacing: -0.015em;
+  font-weight: 700;
 }
 
 .font-editorial-serif {
@@ -54,12 +62,20 @@
 .article-drop-cap::first-letter {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 3.75rem;
-  line-height: 0.85;
+  line-height: 0.82;
   float: left;
   margin-top: 0.15rem;
-  margin-right: 0.65rem;
+  margin-right: 0.75rem;
   font-weight: 700;
   color: #121212;
+}
+
+/* Subtle newspaper headline hover */
+.headline-hover {
+  transition: color 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.headline-hover:hover {
+  color: #555555;
 }
 
 /* Sepia and Night reading modes */

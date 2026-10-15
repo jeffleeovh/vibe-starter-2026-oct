@@ -19,6 +19,8 @@ export interface Article {
   pageNumber?: string;
   tags?: string[];
   isOpinion?: boolean;
+  authorAvatar?: string;
+  authorRole?: string;
 }
 
 export interface CommentItem {
